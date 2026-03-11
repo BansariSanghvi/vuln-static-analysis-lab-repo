@@ -8,7 +8,6 @@ from flask import Flask, request, render_template, send_file
 
 app = Flask(__name__)
 
-# Deliberately hardcoded secret for teaching purposes
 app.config["SECRET_KEY"] = "super-secret-key-123"
 
 DB_PATH = "lab.db"
@@ -38,7 +37,6 @@ def index():
 def search():
     q = request.args.get("q", "")
 
-    # Deliberately vulnerable: SQL injection via string concatenation
     conn = sqlite3.connect(DB_PATH)
     cur = conn.cursor()
     query = "SELECT username FROM users WHERE username = '%s'" % q
@@ -62,7 +60,6 @@ def download():
 
 @app.route("/token")
 def token():
-    # Deliberately weak token generation
     value = str(random.randint(100000, 999999))
     return {"token": value}
 
